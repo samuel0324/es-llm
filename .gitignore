@@ -1,0 +1,59 @@
+# Ignore virtual environment directory (adjust the path as necessary)
+.env
+.venv
+venv/
+env/
+esp-llm-app/
+Input/*
+Output/*
+Preprocessed/*
+
+# Ignore irrelevant directories
+archive/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.so
+
+# C extensions
+*.o
+*.obj
+*.dll
+*.dylib
+*.a
+*.lib
+
+# Large or compiled files
+*.DS_Store
+*.log
+*.csv
+*.dat
+*.db
+
+# Ignore Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Cache files
+*.cache
+*.pkl
+
+# Ignore PyCharm project files
+.idea/
+
+# Ignore VSCode settings
+.vscode/
+
+# Ignore Mac system files
+.DS_Store
+
+# Ignore large files (adjust filenames as necessary)
+large_data_file.ext
+data/
+datasets/
+PDFs/
+"PDFs copy/"
+logging/
+
+# Ignore cloned git repos
+llama.cpp/
