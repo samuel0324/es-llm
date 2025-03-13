@@ -4,9 +4,17 @@
 venv/
 env/
 esp-llm-app/
-Input/*
+
+
+# Ignore files in data directories
+Input/PDFs/*
 Output/*
 Preprocessed/*
+
+# But keep the directories themselves by adding a .gitkeep file
+!Input/PDFs/.gitkeep
+!Output/.gitkeep
+!Preprocessed/.gitkeep
 
 # Ignore irrelevant directories
 archive/
