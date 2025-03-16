@@ -9,6 +9,8 @@ import time
 import warnings
 import traceback
 import shutil
+import glob
+import argparse
 from datetime import datetime
 from dotenv import load_dotenv
 from typing import List, Dict, Any, Optional, Tuple
@@ -32,8 +34,21 @@ load_dotenv()
 # Configuration
 MAX_RETRIES = 3
 RETRY_DELAY = 2
-# SAMPLE_SIZE = 1 # for testing
 DEBUG = True
+
+def find_latest_preprocessed_csv(directory="Preprocessed"):
+    """Find the latest preprocessed CSV file in the Preprocessed directory"""
+    pattern = os.path.join(directory, "preprocessed_sources_*.csv")
+    files = glob.glob(pattern)
+
+    if not files:
+        print(f"No preprocessed_sources_*.csv files found in {directory}")
+        return None
+    
+    # Sort filenames - the newest one will be at the end
+    latest_file = sorted(files)[-1]
+    print(f"Found the latest preprocessed CSV: {latest_file}")
+    return latest_file
 
 class QuestionParser:
     """Parse questions from the CSV file."""
@@ -105,7 +120,6 @@ class MemoryManager:
         self.memory = []  # No max limit - keep all interactions for this document
         self.all_responses = {}  # Store all responses for final compilation
         self.csv_answers = {}    # Store answers to be written back to CSV
-        # print(f"[Memory] Initialized without item limit to retain all document interactions")
     
     def add_interaction(self, question: str, answer: Dict[str, Any], question_num: int = None) -> None:
         """Add a question-answer pair to memory."""
@@ -119,9 +133,7 @@ class MemoryManager:
         
         # Add to working memory (for context window) - no trim
         self.memory.append({"question": question, "answer": answer})
-        
-        # print(f"[Memory] Added: '{q_key}' | Memory size: {len(self.memory)} items")
-    
+            
     def get_context_window(self) -> str:
         """Get the current memory context as formatted text."""
         context = ""
@@ -129,7 +141,6 @@ class MemoryManager:
             q = item["question"].strip().split('\n')[0][:100]  # Truncate for brevity
             a = json.dumps(item["answer"], indent=2)
             context += f"Q: {q}\nA: {a}\n\n"
-        # print(f"[Memory] Built context window from {len(self.memory)} items | Size: {len(context)} chars")
 
         return context
     
@@ -339,17 +350,45 @@ def create_csv_copy(input_csv, output_csv):
         return False
 
 def main():
+    parser = argparse.ArgumentParser(description="Process documents with LLM against a set of questions.")
+
+    # Optional args
+    parser.add_argument("--input_csv", type=str, default="master_prompt_v5_cot_table.csv",
+                        help="Path to the master prompt CSV file. Default: 'master_prompt_v5_cot_table.csv'")
+    
+    parser.add_argument("--preprocessed_csv", type=str, default=None,
+                        help="Path to the preprocessed CSV file. If not provided, will use the most recent one.")
+    
+    parser.add_argument("--output_dir", type=str, default="Output",
+                        help="Directory where output CSV files will be saved. Default: 'Output'")    
+    
+    args = parser.parse_args()
+
+    
     # Create timestamp for file naming
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    
-    # Source CSV file
-    input_csv = "master_prompt_v5_cot_table.csv" ### THIS SHOULD BE INHERITED FROM ORCHESTRATOR.PY
+
+    # Master Prompt CSV file
+    input_csv = args.input_csv
     
     # Read in the preprocessed dataset
-    df = pd.read_csv("Preprocessed/preprocessed_sources_20250313_162322.csv") ### THIS SHOULD BE INHERITED FROM ORCHESTRATOR.PY
-    
-    # Sample N rows 
-    # df = df.sample(SAMPLE_SIZE)
+    preprocessed_csv = args.preprocessed_csv
+    if not preprocessed_csv:
+        preprocessed_csv = find_latest_preprocessed_csv()
+        if not preprocessed_csv:
+            print("No preprocessed CSV files found. Please run extract_preprocess_pdfs_prod.py first or specify a file.")
+            return
+
+    # Make sure output directory exists    
+    os.makedirs(args.output_dir, exist_ok=True)
+
+    # Try reading in the preprocessed CSV
+    try:
+        df = pd.read_csv(preprocessed_csv)
+        print(f"Successfully loaded preprocessed CSV: {preprocessed_csv}")
+    except Exception as e:
+        print(f"Error loading preprocessed CSV: {str(e)}")
+        return
     
     # Parse questions from the CSV file
     question_parser = QuestionParser()
