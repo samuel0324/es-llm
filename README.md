@@ -23,9 +23,10 @@ The pipeline processes PDF documents through several stages:
 
 ## Setup
 
-1. Clone the repository:
+1. Clone the repository and change directory to es-llm:
    ```bash
    git clone https://github.com/samuel0324/es-llm.git
+   cd es-llm
    ```
 
 2. Create a virtual environment and install dependencies:
@@ -75,10 +76,20 @@ python llm_processing_prod.py
 ```
 
 This script:
-- Reads the preprocessed text data in the CSV file generated after running `llm_processing_prod.py`
+- Automatically finds and uses the most recent preprocessed CSV file in the Preprocessed directory
 - Loads questions from the master prompt CSV
-- Performs RAG on each document by prompting the LLM with one question at a time and stores each LLM output in the corresponding row. 
+- Performs RAG on each document by prompting the LLM with one question at a time
 - Generates a CSV file in the `Output/` directory for each Event Group (i.e., ES Event)
+
+Optional arguments:
+- `--preprocessed_csv`: Path to a specific preprocessed CSV file (default: latest file in Preprocessed directory)
+- `--input_csv`: Path to the master prompt CSV file (default: `master_prompt_v5_cot_table.csv`)
+- `--output_dir`: Directory where output CSV files will be saved (default: `Output/`)
+
+Example with options:
+```bash
+python llm_processing_prod.py --preprocessed_csv Preprocessed/my_specific_file.csv --input_csv my_prompts.csv --output_dir Results
+```
 
 ## Input Requirements
 
