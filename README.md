@@ -44,6 +44,8 @@ The pipeline processes PDF documents through several stages:
 
 ### 1. PDF Document Preparation
 
+Use [Printfriendly browser extension](https://www.printfriendly.com/extensions/chrome) to remove irrelevant text, images, etc. from each PDF before downloading. 
+
 Place your PDFs in the `Input/PDFs/` directory following this naming convention:
 ```
 EventGroup_Source_Number.pdf
@@ -54,7 +56,11 @@ For example:
 - `ChinaEconomicStimulus_Bloomberg_02.pdf`
 
 ### 2. Extract and Preprocess PDF Content
-
+Run the following code in the command line: 
+```bash
+python extract_preprocess_pdfs_prod.py
+```
+Or
 ```bash
 python extract_preprocess_pdfs_prod.py --input_folder Input/PDFs --output_csv Preprocessed/preprocessed_sources_[timestamp].csv
 ```
@@ -70,19 +76,15 @@ python llm_processing_prod.py
 ```
 
 This script:
-- Reads the preprocessed CSV file
+- Reads the preprocessed text data in the CSV file generated after running `llm_processing_prod.py`
 - Loads questions from the master prompt CSV
-- Processes each document with all questions sequentially
-- Generates output CSV files in the `Output/` directory for each Event Group (i.e., ES Event)
+- Performs RAG on each document by prompting the LLM with one question at a time and stores each LLM output in the corresponding row. 
+- Generates a CSV file in the `Output/` directory for each Event Group (i.e., ES Event)
 
 ## Input Requirements
 
 ### PDF Naming Convention
-Files must follow the format: `EventGroup_Source_Number.pdf`
-
-Examples:
-- `ChinaEconomicStimulus_Reuters_01.pdf`
-- `UKBrexit_BBC_01.pdf`
+Make sure the PDFs in `Input/PDFs/` directory are named correctly as explained in the **PDF Document Preparation** step.
 
 ### Master Prompt CSV
 The LLM processing requires a master prompt CSV file (e.g., `master_prompt_v5_cot_table.csv`) with questions formatted as:
@@ -133,5 +135,3 @@ See `requirements.txt` for a complete list.
 - JSON output format follows the examples provided in the master prompt
 - JSON output can be erroneous
 - LLM-generated answers can be erroneous - Human evaluation is required
-
-## License
