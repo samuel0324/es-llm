@@ -88,8 +88,11 @@ Make sure the PDFs in `Input/PDFs/` directory are named correctly as explained i
 
 ### Master Prompt CSV
 The LLM processing requires a master prompt CSV file (e.g., `master_prompt_v5_cot_table.csv`) with questions formatted as:
-- A "Question" column containing the question text
-- JSON examples in the format ```json {...} ``` for structured output
+- A "Question" column containing the questions and examples
+    -  JSON examples in the format \```json {...} ``` for structured output
+- A "Dataset Attribute" column containing corresponding column names found in the original ES Dataset
+- An empty "LLM Answer" column to which corresponding LLM answer will be stored after duplicating the master prompt CSV file 
+
 
 ## Output
 
