@@ -25,8 +25,7 @@ The pipeline processes PDF documents through several stages:
 
 1. Clone the repository:
    ```bash
-   git clone [repository-url]
-   cd [repository-directory]
+   git clone https://github.com/samuel0324/es-llm.git
    ```
 
 2. Create a virtual environment and install dependencies:
