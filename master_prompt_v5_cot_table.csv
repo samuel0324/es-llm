@@ -1,0 +1,382 @@
+Question,Dataset Attribute,LLM Answer
+"What is a concise keyword title for this economic statecraft event? Answer should answer “who did what to whom”. 
+    - Example 1: 
+    ```json
+    {
+        “ES Event”: “EU Sanctions North Korea for Nuclear Program”
+    }
+    ```
+    - Example 2: 
+    ```json
+    {
+        “ES Event”: “Russia Bans Agricultural Imports from Moldova”
+    }
+    ```
+    - Example 3: 
+    ```json
+    {
+        “ES Event”: “China Invests in Argentina’s Lithium Sector”
+    }
+    ```",ES Event,
+"Which country or countries initiated this instance of economic statecraft? Generate a list of countries using the two-letter ISO country codes. 
+    - Example 1: 
+    ```json
+    {
+        “Sending/Initiating State(s)”: [“US”, “KR”, “JP”]
+    }
+    ```",Sending/Initiating State(s),
+"Which country or countries were the target of this economic statecraft action? Generate a list of countries using the two-letter ISO country codes. Note that the target country or countries could be the same as the sending state(s) if the statecraft is done on themselves.
+    - Example 1: 
+    ```json
+    {
+        “Target/Receiving State(s)”: [“CN”, “RU”, “IR”]
+    }```
+    - Example 2: 
+    ```json
+    {
+        “Target/Receiving State(s)”: [“US”, “KR”, “JP”]
+    }```
+
+    - Example of identical Sending and Target states:
+    ```json
+    {
+        ""Sending/Initiatiating State(s)"": [""CN""],
+        ""Target/Receiving State(s)"": [""CN""]
+    }
+    ```",Target/Receiving State(s),
+"Are there any other state actors or state-owned enterprises involved? Generate a list of countries and/or state-owned enterprises involved. If none, return “None”.
+    - Example 1: 
+    ```json
+    {
+        “Other State Actors Involved (if any)”: [“UK”, “FR”, “AU”]
+    }
+    ```
+    - Example 2 when state-owned enterprises are involved: 
+    ```json
+    {
+        ""Other State Actors Involved (if any)"": {
+            ""CN"": [
+                ""China Communications Constructions Group"",
+                ""China Export and Credit Insurance Corporation"",
+                ""Industrial and Commercial Bank of China""
+            ],
+            ""RU"": [
+                ""Rosneft Oil Company"",
+                ""Rosneft Trading SA""
+            ]
+        }
+    }
+    ```
+    - Example 3: 
+    ```json
+    {
+        “Other State Actors Involved (if any)”: “N/A”
+    }
+    ```",Other State Actors Involved,
+"Were any non-state agents involved, including NGOs, advocacy groups, international organizations, or similar groups? Generate a list of non-state actors involved. If none, return “None”.
+- Example 1: 
+```json
+{
+    “Non-State Agents Involved (if any)”: [“UN”, “ASEAN”]
+}
+```
+- Example 2 when sources don't mention any non-state agents: 
+```json
+{
+    “Non-State Agents Involved (if any)”: ""N/A""
+}
+```",Non-State Agents Involved,
+"Were any U.S. government agencies involved in this event? Generate a list of U.S. government agencies involved in this event. If none, return “None”.
+- Example 1: 
+```json
+{
+    “US Agencies Involved (if any)”: [“DHS”, “OFAC”]
+}
+```
+- Example 2 when sources don't mention U.S. government agencies:
+```json
+{
+    ""US Agencies Involved (if any)"": ""N/A""
+}
+```",US Agencies Involved (if any),
+"Were there any non-state related companies involved in this event? Generate a list of non-state related companies involved in this event. Write the company name followed by its nationality in the form of a two letter country code in parenthesis . If none, return “None”. Do not include state-owned enterprises in your response.
+- Example 1: 
+```json
+{
+    “Companies of Interest (if any)”: [“Nokia (FI)”, “Google (US)”, “Huawei (CN)”]
+}
+```
+- Example 2:
+```json
+{
+    ""Companies of Interest (if any)"": ""N/A""
+}
+```",Companies of Interest (if any),
+"What was the Primary Economic Mechanism used by the sending state used to influence the Target/Receiving State? Generate a list of economic mechanisms used in this event. 
+- Example 1: 
+```json
+{
+    “Primary Economic Mechanism: [“Sanctions”, “Infrastructure Investment”]
+}
+```
+- Example 2: 
+```json
+{
+    “Primary Economic Mechanism: [“Foreign Direct Investment”]
+}
+```
+- Example 3: 
+```json
+{
+    “Primary Economic Mechanism: [“Trade Agreement”, “Acquisition”, “International Investment”, “Tariffs”, “Entity List”, “Boycotts”]
+}
+```",Primary Economic Mechanism,
+"What was the Domain of Economic Activity used by the sending state to influence the Target/Receiving State? Generate a list of Domains of Economic Activity involved in this event. Choose one or more from the following list which has the definitions for each domain:
+    - **International Trade**: Includes trade in goods and services. Economic statecraft in this domain may include embargos, export controls, trade agreements, anti-dumping measures, tariffs, etc.
+    - **International Investment**: Includes foreign direct investment, mergers and acquisitions, portfolio investment, and official development assistance. Statecraft in this domain may include inbound investment screening, blocking mergers and acquisitions, firm exit, interest rate manipulation, etc.
+    - **International Human Capital**: Focuses on the flow of labor and talent. Examples may include talent recruitment programs, student visas, visas for high-skilled labor, free movement zones, citizenship requirements for employees in sensitive technologies, and travel bans.
+    - **International Institutions**: Includes establishment and maintenance of international organizations, legal frameworks, and diplomatic frameworks that allow economic interactions to flow.
+    - **Monetary Activities**: Focuses on the management of currency. Examples may include currency management, Federal Reserve policy, foreign exchange reserves, and sovereign wealth funds. 
+    - **Domestic Economic Activities**: Focuses on activities inside the borders of the state. Examples may include industrial policy, innovation incentives and subsidies, research and development support, education policy, infrastructure development, and tax policy. 
+
+    - Example 1: 
+    ```json
+    {
+        “Domain of Economic Activity”: [“International Trade”]
+    }
+    ```
+    - Example 2: 
+    ```json
+    {
+        “Domain of Economic Activity”: [“International Investment”, “International Human Capital”]
+    }
+    ```
+    - Example 3: 
+    ```json
+    {
+        “Domain of Economic Activity”: [“Domestic Economic Activities” , “Monetary Activities”]
+    }
+    ```",Domain of Economic Activity,
+"Was this event part of China’s Belt and Road Initiative (BRI)? Answer with “Yes"" or “No”.
+    - Example 1: 
+    ```json
+    {
+        “BRI Project?”: “Yes”
+    }
+    ```
+    - Example 2: 
+    ```json
+    {
+        “BRI Project?”: “No”
+    }
+    ```",BRI Project?,
+"Which date was the economic statecraft action initiated? Provide the date in MM/DD/YYYY format. This includes the announcement, implementation, or effective date of a policy, entity list, sanction, tariff, or any other primary economic mechanism. If only the month and year are available, use the format ""MM/YYYY."" If only the year is known, provide it as “YYYY.”
+    - Example 1: 
+    ```json
+    {
+        “Statecraft Instigated”: “01/15/2023”
+    }
+    ```
+    - Example 2: 
+    ```json
+    {
+        “Statecraft Instigated”: “07/2024”
+    }
+    ```
+    - Example 3: 
+    ```json
+    {
+        “Statecraft Instigated”: “2023”
+    }
+    ```",MM/DD/YYYY Statecraft Instigated,
+"When did the economic statecraft action end or get resolved? Provide the date in MM/DD/YYYY format if applicable. This includes when a policy, sanction, or tariff succeeded, failed, or was no longer in effect. If the action is still ongoing, return ""Ongoing"" instead of a date.
+    - Example 1: 
+    ```json
+    {
+        “Ended/Resolved”: [“12/31/2024”]
+    }
+    ``` 
+    - Example 2: 
+    ```json
+    {
+        “Ended/Resolved”: “Ongoing”
+    }
+    ```",MM/DD/YYYY Ended/Resolved,
+"What was the catalytic event that prompted the economic statecraft action? Identify the event that led the Sending State to take action on the Receiving State (could be a domestic action). The catalytic event always occurs before the statecraft action and serves as the cause or trigger for it. If no catalytic event is mentioned in the sources, return “N/A.”
+    - Example 1: 
+    ```json
+    {
+        “Catalytic Event”: “Trade dispute escalation”
+    }
+    ```
+    - Example 2:
+    ```json
+    {
+        ""Catalytic Event"": ""N/A""
+    }
+    ```",Catalytic Event,
+"When did the catalytic event occur? Provide the date in MM/DD/YYYY format. If only the month and year are known, use ""MM/YYYY."" If only the year is available, provide it as “YYYY.” Note that the catalytic event must occur before the date the statecraft action was initiated.
+    - Example 1: 
+    ```json
+    {
+        “Date of Catalytic Event”: “11/15/2022”
+    }
+    ```
+    - Example 2 if the sources don't have the information:
+    ```json
+    {
+        ""Date of Catalytic Event"": ""N/A""
+    }
+    ``` ",MM/DD/YYYY of Catalytic Event,
+"Which market sector(s) were targeted or influenced by the economic statecraft action? Select one or more from the list below: 
+
+    - “Energy” 
+    - “Materials”
+    - “Industrials”
+    - “Consumer”
+    - “Discretionary”
+    - “Consumer Staples”
+    - “Health Care”
+    - “Financials”
+    - “Information Technology”
+    - “Communication Services”
+    - “Utilities”
+    - “Real Estate”  
+<br />**Examples**: 
+    - Example 1:
+    ```json
+    {
+        ""Market Sector"": [""Energy""]
+    }
+    ```
+    - Example 2: 
+    ```json
+    {
+        “Market Sector”: [“Energy”, “Information Technology”]
+    }
+    ```",Market Sector,
+"Based on your response from the ""Market Sector"" question, use the corresponding Global Industry Classification Standard (GICS) code(s) listed below:
+    - Energy: 10 
+    - Materials: 15 
+    - Industrials: 20 
+    - Consumer Discretionary: 25 
+    - Consumer Staples: 30 
+    - Health Care: 35 
+    - Financials: 40 
+    - Information Technology: 45 
+    - Communication Services: 50 
+    - Utilities: 55 
+    - Real Estate: 60 
+
+    Example 1: 
+    ```json
+    {
+        “GICS Code”: [“10”, “45”]
+    }
+    ```",Global Industry Classification Standard,
+"Which security externalities were targeted by the economic statecraft action? Select between one and three from the list below based on which best fit the situation described in the sources:
+    - **Transactional**: Attempting to force a change in the behavior of the targeted state
+    - **Transformational**: Engendering a change in the definition of the targeted state’s interests
+    - **Corrosive**: Attempting to directly weaken the national economy of the targeted state
+    - **Bolstering**: Attempting to directly strengthen the national economy of the targeted state
+    - **Disarming**: Attempting to directly weaken the military capability of the targeted state.
+    - **Arming**: Attempting to directly strengthen the military capability of the targeted state
+
+    <br />**Examples**:
+    - Example 1: 
+    ```json
+    {
+        “Target Security Externalities”: [“Bolstering""]
+    }
+    ```
+    - Example 2:
+    ```json
+    {
+        ""Target Security Externalities"": [""Bolstering"", ""Transformational""]
+    }
+    ```
+    Example 3:
+    ```json
+    {
+        ""Target Security Externalities"": [""Transactional"", ""Disarming"", ""Corrosive""]
+    }
+    ```
+    Example 4:
+    ```json
+    {
+        ""Target Security Externalities: [""Transactional"",
+        ""Bolstering"", ""Arming""]
+    }
+    ```",Targeted Security Externalities,
+"What is the summary narrative of this economic statecraft instance? Provide a concise explanation of the event as described in the sources. The narrative should include:
+- The mechanisms used (e.g., sanctions, tariffs, policies)
+- The actors involved, including the sending and receiving states and any relevant non-state actors
+- The reason for the statecraft, including the catalytic event that triggered it
+- How the statecraft aims to achieve the target security externalities
+- The summary should be no longer than 300 words and must offer a clear, fact-based explanation of the event.
+
+
+Example 1: 
+```json
+{
+    “Summary Narrative”: “In response to escalating trade tensions (catalytic event), Country A (Sending State) imposed tariffs (mechanism) on technology exports to Country B (Target State). The action aimed to pressure Country B into changing its trade policies (transactional security externality) while also weakening its technology sector (corrosive security externality). Non-state actors, including multinational corporations, were impacted by the disrupted supply chains (non-state actors involved).”
+}
+```",Summary Narrative of what happened (about 300 words),
+"Compile previous answers into a single JSON output.
+
+    Example JSON output:
+
+    ```json
+    {
+        ""ES Event"": ""US Imposes Sanctions on Russian Banks"",
+        ""Sending/Initiating State(s)"": [
+            ""US""
+        ],
+        ""Target/Receiving State(s)"": [
+            ""RU""
+        ],
+        ""Other State Actors Involved (if any)"": [
+            ""EU"",
+            ""UK""
+        ],
+        ""Non-State Agents Involved (if any)"": [
+            ""IMF"",
+            ""World Bank""
+        ],
+        ""U.S. government agencies involved (if any)"": [
+            ""OFAC"",
+            ""State Department""
+        ],
+        ""Companies of Interest (If any)"": [
+            ""Goldman Sachs (US)"",
+            ""Deutsche Bank (DE)""
+        ],
+        ""Primary Economic Mechanism"": [
+            ""Sanctions""
+        ],
+        ""Domain of Economic Activity"": [
+            ""International Trade"",
+            ""Monetary Activities""
+        ],
+        ""BRI Project?"": ""No"",
+        ""Statecraft Instigated"": ""03/15/2023"",
+        ""Ended/Resolved"": ""Ongoing"",
+        ""Catalytic Event"": [
+            ""Russia's invasion of Ukraine""
+        ],
+        ""Date of Catalytic Event"": ""02/24/2022"",
+        ""Market Sector"": [
+            ""Financials"",
+            ""Information Technology""
+        ],
+        ""GICS Code"": [
+            ""40"",
+            ""45""
+        ],
+        ""Target Security Externalities"": [
+            ""Transactional"",
+            ""Corrosive""
+        ],
+        ""Summary Narrative"": ""Following Russia’s invasion of Ukraine (catalytic event), the U.S. (Sending State) imposed targeted sanctions (mechanism) on Russian financial institutions (Target State) to limit their access to global markets and disrupt their economic stability (corrosive security externality). The measures included cutting off key Russian banks from the SWIFT financial messaging system and freezing their U.S.-based assets. The European Union and the United Kingdom (Other State Actors) joined in implementing similar financial restrictions. International organizations such as the IMF and World Bank (Non-State Agents) projected significant economic consequences for Russia due to these actions. The goal was to force a policy shift by the Russian government (transactional security externality) while weakening its financial sector. The sanctions affected multinational corporations such as Goldman Sachs (US) and Deutsche Bank (DE), which reduced their exposure to Russian assets. The restrictions remain in effect as of 2025 (Ongoing).""
+    }
+    ```",Entire JSON,

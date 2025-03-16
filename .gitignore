@@ -35,7 +35,6 @@ __pycache__/
 # Large or compiled files
 *.DS_Store
 *.log
-*.csv
 *.dat
 *.db
 
